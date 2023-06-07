@@ -52,7 +52,19 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   const { id } = req.params;
   const user = await UserModel.findByIdAndDelete(id);
-  return responseSuccess(res, user);
+
+  const data = {
+    id: user._id,
+    userName: user.userName,
+    name: user.name,
+    email: user.email,
+    avatar: user.avatar,
+    birthday: user.birthday,
+    phoneNumber: user.phoneNumber,
+    address: user.address,
+    role: user.role,
+  };
+  return responseSuccess(res, data);
 };
 
 module.exports = {
