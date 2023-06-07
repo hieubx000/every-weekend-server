@@ -46,7 +46,19 @@ const update = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
   const user = await UserModel.findByIdAndUpdate(id, body);
-  return responseSuccess(res, user);
+  
+  const data = {
+    id: user._id,
+    userName: user.userName,
+    name: user.name,
+    email: user.email,
+    avatar: user.avatar,
+    birthday: user.birthday,
+    phoneNumber: user.phoneNumber,
+    address: user.address,
+    role: user.role,
+  };
+  return responseSuccess(res, data);
 };
 
 const remove = async (req, res) => {
