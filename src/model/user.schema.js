@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const slug = require("mongoose-slug-generator");
+const mongoose = require('mongoose');
+const slug = require('mongoose-slug-generator');
 
 mongoose.plugin(slug);
 
@@ -17,7 +17,7 @@ const UserSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      default: "",
+      default: '',
     },
     name: {
       type: String,
@@ -26,7 +26,7 @@ const UserSchema = mongoose.Schema(
     avatar: {
       type: String,
       default:
-        "https://firebasestorage.googleapis.com/v0/b/every-weekend-web.appspot.com/o/user.png?alt=media&token=265afdcd-b727-470d-9733-9b68d6d596b6&_gl=1*zv3itp*_ga*MjMxNjM4MDE1LjE2ODMwOTkwMDU.*_ga_CW55HF8NVT*MTY4NjA2ODE4MS44LjEuMTY4NjA2ODI3NC4wLjAuMA..",
+        'https://firebasestorage.googleapis.com/v0/b/every-weekend-web.appspot.com/o/user.png?alt=media&token=265afdcd-b727-470d-9733-9b68d6d596b6&_gl=1*zv3itp*_ga*MjMxNjM4MDE1LjE2ODMwOTkwMDU.*_ga_CW55HF8NVT*MTY4NjA2ODE4MS44LjEuMTY4NjA2ODI3NC4wLjAuMA..',
     },
     birthday: {
       type: Number,
@@ -43,8 +43,8 @@ const UserSchema = mongoose.Schema(
     role: {
       require: true,
       type: String,
-      enum: ["customer", "supplier", "admin"],
-      default: "customer",
+      enum: ['customer', 'supplier', 'admin'],
+      default: 'customer',
     },
   },
   {
@@ -52,6 +52,6 @@ const UserSchema = mongoose.Schema(
   }
 );
 
-const UserModel = mongoose.model("User", UserSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = UserModel;

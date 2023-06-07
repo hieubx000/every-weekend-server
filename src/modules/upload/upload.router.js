@@ -4,8 +4,8 @@ const { uploadToCloud } = require('./upload.controller');
 
 const memoryStorage = multer.memoryStorage();
 
-const uploadWithMemory = multer({ storage: memoryStorage })
+const uploadWithMemory = multer({ storage: memoryStorage });
 
-router.post('/', uploadWithMemory.single('file'), uploadToCloud)
+router.post('/', uploadWithMemory.single('file'), uploadToCloud);
 
-module.exports = router
+module.exports = router;

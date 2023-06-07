@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
-const { generateToken } = require("../../utils/jwt.helper");
-const UserModel = require("../../model/user.schema");
-const HttpError = require("../../common/http.error");
-const { responseSuccess } = require("../../utils/response.hepler");
+const bcrypt = require('bcryptjs');
+const { generateToken } = require('../../utils/jwt.helper');
+const UserModel = require('../../model/user.schema');
+const HttpError = require('../../common/http.error');
+const { responseSuccess } = require('../../utils/response.hepler');
 
 const login = async (req, res) => {
   // check if the user exists
@@ -13,8 +13,6 @@ const login = async (req, res) => {
     if (result) {
       // sign token and send it in response
       const token = await generateToken(user);
-      let rs = user;
-
       const data = {
         id: user._id,
         user: user.name,
