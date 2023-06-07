@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const CommentSchema = new mongoose.Schema(
+import { Schema, model } from 'mongoose';
+
+const CommentSchema = new Schema(
   {
     email: {
       type: String,
@@ -21,9 +22,8 @@ const CommentSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-const CommentModel = mongoose.model('Comment', CommentSchema, 'comments');
-
-module.exports = CommentModel;
+const CommentModel = model('Comment', CommentSchema);
+export default CommentModel;

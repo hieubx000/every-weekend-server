@@ -1,10 +1,11 @@
-const bcrypt = require('bcryptjs');
-const { generateToken } = require('../../utils/jwt.helper');
-const UserModel = require('../../model/user.schema');
-const HttpError = require('../../common/http.error');
-const { responseSuccess } = require('../../utils/response.hepler');
+import * as bcrypt from 'bcryptjs';
+import { generateToken } from '../../utils/jwt.helper';
+import UserModel from '../../model/user.schema';
+import HttpError from '../../common/http.error';
+import { responseSuccess } from '../../utils/response.hepler';
+import { Request, Response } from 'express';
 
-const login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
   // check if the user exists
   const user = await UserModel.findOne({ username: req.body.userName });
   if (user) {
@@ -33,7 +34,7 @@ const login = async (req, res) => {
   }
 };
 
-const register = async (req, res) => {
+export const register = async (req: Request, res: Response) => {
   // hash the password
   const exists = await UserModel.findOne({ userName: req.body.userName });
   if (exists) {
@@ -58,9 +59,4 @@ const register = async (req, res) => {
 
     return responseSuccess(res, { data, token });
   }
-};
-
-module.exports = {
-  login,
-  register,
 };

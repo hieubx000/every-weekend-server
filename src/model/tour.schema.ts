@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
-// const mongoose = require('../common/database')()
+import mongoose, { Schema, model } from 'mongoose';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const slug = require('mongoose-slug-generator');
 mongoose.plugin(slug);
 
-const TourSchema = mongoose.Schema(
+const TourSchema = new Schema(
   {
     title: {
       type: String,
@@ -32,9 +33,9 @@ const TourSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-const TourModel = mongoose.model('Tour', TourSchema);
+const TourModel = model('Tour', TourSchema);
 
-module.exports = TourModel;
+export default TourModel;

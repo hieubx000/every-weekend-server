@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from 'mongoose';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const slug = require('mongoose-slug-generator');
 mongoose.plugin(slug);
 
-const BlogSchema = mongoose.Schema(
+const BlogSchema = new Schema(
   {
     title: {
       type: String,
@@ -21,9 +22,8 @@ const BlogSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const BlogModel = mongoose.model('Blog', BlogSchema);
-
-module.exports = BlogModel;
+export default BlogModel;

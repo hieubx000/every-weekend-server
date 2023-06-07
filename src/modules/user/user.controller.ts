@@ -1,16 +1,16 @@
-const { default: mongoose } = require('mongoose');
-const UserModel = require('../../model/user.schema');
-const bcrypt = require('bcryptjs');
-const { responseSuccess } = require('../../utils/response.hepler');
+import UserModel from '../../model/user.schema';
+import bcrypt from 'bcryptjs';
+import { responseSuccess } from '../../utils/response.hepler';
+import { Request, Response } from 'express';
 
 // mongoose.model('users')
-const findAll = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 20;
+export const findAll = async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page.toString()) || 1;
+  const limit = parseInt(req.query.limit.toString()) || 20;
   const skip = limit * (page - 1);
   const search = req.query.search;
 
-  const filter = {};
+  const filter: any = {};
   if (search) {
     filter.$text = { $search: search };
   }
@@ -22,13 +22,13 @@ const findAll = async (req, res) => {
   return responseSuccess(res, users, totalUser);
 };
 
-const findById = async (req, res) => {
+export const findById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const user = await UserModel.findById(id);
   return responseSuccess(res, user);
 };
 
-const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
   const body = req.body;
   const newUser = {
     email: body?.email,
@@ -42,23 +42,18 @@ const create = async (req, res) => {
   return responseSuccess(res, user);
 };
 
-const update = async (req, res) => {
+export const update = async (req: Request, res: Response) => {
   const { id } = req.params;
   const body = req.body;
-  const user = await UserModel.findByIdAndUpdate(id, body);
+  const [_, user] = await Promise.all([
+    await UserModel.findByIdAndUpdate(id, body),
+    await UserModel.findById(id),
+  ]);
   return responseSuccess(res, user);
 };
 
-const remove = async (req, res) => {
+export const remove = async (req: Request, res: Response) => {
   const { id } = req.params;
   const user = await UserModel.findByIdAndDelete(id);
   return responseSuccess(res, user);
-};
-
-module.exports = {
-  findAll,
-  findById,
-  create,
-  update,
-  remove,
 };
