@@ -15,6 +15,9 @@ const BlogSchema = mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    description: {
+      type: String,
+    },
   },
   {
     timestamps: true,

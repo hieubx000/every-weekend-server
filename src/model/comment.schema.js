@@ -1,17 +1,15 @@
 const mongoose = require('mongoose');
-const mongoose = require('../common/database')();
 const CommentSchema = new mongoose.Schema(
   {
     email: {
       type: String,
       required: true,
     },
-    // prd_id: {
-    //     type: mongoose.Types.ObjectId,
-    //     ref: "Product",
-    //     required: true,
-    // },
-    body: {
+    name: {
+      type: String,
+      required: true,
+    },
+    context: {
       type: String,
       default: null,
       required: true,

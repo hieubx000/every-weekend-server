@@ -15,6 +15,20 @@ const TourSchema = mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    image: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    price: {
+      type: Number,
+      default: 0,
+    },
+    rate: {
+      type: Number,
+      default: 5,
+    },
   },
   {
     timestamps: true,
