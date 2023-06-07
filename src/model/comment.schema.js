@@ -1,9 +1,10 @@
-const mongoose = require('mongoose')
-const mongoose = require('../common/database')()
-const CommentSchema = new mongoose.Schema({
+const mongoose = require('mongoose');
+const mongoose = require('../common/database')();
+const CommentSchema = new mongoose.Schema(
+  {
     email: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     // prd_id: {
     //     type: mongoose.Types.ObjectId,
@@ -11,18 +12,20 @@ const CommentSchema = new mongoose.Schema({
     //     required: true,
     // },
     body: {
-        type: String,
-        default: null,
-        required: true,
+      type: String,
+      default: null,
+      required: true,
     },
     rate: {
-        type: Number,
-        default: 5,
+      type: Number,
+      default: 5,
     },
-}, {
+  },
+  {
     timestamps: true,
-});
+  }
+);
 
-const CommentModel = mongoose.model('Comment', CommentSchema, 'comments')
+const CommentModel = mongoose.model('Comment', CommentSchema, 'comments');
 
 module.exports = CommentModel;
