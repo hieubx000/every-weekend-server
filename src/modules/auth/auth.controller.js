@@ -15,8 +15,9 @@ const login = async (req, res) => {
       const token = await generateToken(user);
       const data = {
         id: user._id,
-        user: user.name,
-        name: user.email,
+        userName: user.userName,
+        name: user.name,
+        email: user.email,
         avatar: user.avatar,
         birthday: user.birthday,
         phoneNumber: user.phoneNumber,
@@ -47,8 +48,9 @@ const register = async (req, res) => {
 
     const data = {
       id: user._id,
-      user: user.name,
-      name: user.email,
+      userName: user.userName,
+      name: user.name,
+      email: user.email,
       avatar: user.avatar,
       birthday: user.birthday,
       phoneNumber: user.phoneNumber,
