@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "tsc && node dist/index.js",
+    "dev": "concurrently \"npm run watch-tsc\" \"npm run watch-deploy\"",
     "tsc": "tsc",
     "watch-tsc": "tsc -w",
-    "deploy": "node dist/index.js",
     "watch-deploy": "nodemon dist/index.js",
-    "dev": "concurrently \"npm run watch-tsc\" \"npm run watch-deploy\"",
     "format": "prettier --write ./src",
     "lint": "eslint \"src/**/*.ts\" --fix"
   },
