@@ -5,8 +5,8 @@ import { Request, Response } from 'express';
 
 // mongoose.model('users')
 export const findAll = async (req: Request, res: Response) => {
-  const page = parseInt(req.query.page.toString()) || 1;
-  const limit = parseInt(req.query.limit.toString()) || 20;
+  const page = parseInt(`${req.query.page}`) || 1;
+  const limit = parseInt(`${req.query.limit}`) || 20;
   const skip = limit * (page - 1);
   const search = req.query.search;
 
@@ -31,6 +31,7 @@ export const findById = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
   const body = req.body;
   const newUser = {
+    userName: body?.userName,
     email: body?.email,
     password: await bcrypt.hash(body?.password, 10),
     name: body?.name,
@@ -38,6 +39,7 @@ export const create = async (req: Request, res: Response) => {
     role: body?.role,
   };
   const user = await UserModel.create(newUser);
+  console.log('aaaaaaaaa');
 
   return responseSuccess(res, user);
 };

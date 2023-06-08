@@ -7,8 +7,8 @@ const isAuth = async (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.headers.authorization || '';
     const token = authorization.split(' ')[1];
     if (token) {
-      const decoded = await verifyToken(token);
-      req.user = decoded.data;
+      const decoded: any = await verifyToken(token);
+      req.user = decoded?.data;
       next();
     } else {
       throw new Error('UNAUTHORIZED');
@@ -25,7 +25,7 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.headers.authorization || '';
     const token = authorization.split(' ')[1];
     if (token) {
-      const decoded = await verifyToken(token);
+      const decoded: any = await verifyToken(token);
       console.log(decoded.data);
       req.user = decoded.data;
       if (decoded.data?.role == 'admin') {
