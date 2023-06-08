@@ -1,10 +1,11 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import { config } from 'dotenv';
+import jwt from 'jsonwebtoken';
+config();
 
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
-const generateToken = (data) => {
+export const generateToken = (data: any) => {
   return new Promise((resolve, reject) => {
     jwt.sign(
       {
@@ -21,13 +22,13 @@ const generateToken = (data) => {
           return reject(error);
         }
         resolve(token);
-      }
+      },
     );
   });
 };
-const verifyToken = (token) => {
+export const verifyToken = (token: string) => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, JWT_SECRET_KEY, (error, decoded) => {
+    jwt.verify(token, JWT_SECRET_KEY, (error: any, decoded: any) => {
       if (error) {
         console.error(error);
         return reject(error);
@@ -35,9 +36,4 @@ const verifyToken = (token) => {
       resolve(decoded);
     });
   });
-};
-
-module.exports = {
-  generateToken,
-  verifyToken,
 };

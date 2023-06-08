@@ -1,11 +1,13 @@
-const jwtHepler = require('./../utils/jwt.helper');
+import { NextFunction, Request, Response } from 'express';
 
-const isAuth = async (req, res, next) => {
+import { verifyToken } from 'src/utils/jwt.helper';
+
+const isAuth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authorization = req.headers.authorization || '';
     const token = authorization.split(' ')[1];
     if (token) {
-      const decoded = await jwtHepler.verifyToken(token);
+      const decoded = await verifyToken(token);
       req.user = decoded.data;
       next();
     } else {
@@ -18,12 +20,12 @@ const isAuth = async (req, res, next) => {
     });
   }
 };
-const isAdmin = async (req, res, next) => {
+const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authorization = req.headers.authorization || '';
     const token = authorization.split(' ')[1];
     if (token) {
-      const decoded = await jwtHepler.verifyToken(token);
+      const decoded = await verifyToken(token);
       console.log(decoded.data);
       req.user = decoded.data;
       if (decoded.data?.role == 'admin') {
