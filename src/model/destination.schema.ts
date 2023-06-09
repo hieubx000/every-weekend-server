@@ -4,7 +4,7 @@ import mongoose, { Schema } from 'mongoose';
 const slug = require('mongoose-slug-generator');
 mongoose.plugin(slug);
 
-const BlogSchema = new Schema(
+const DestinationSchema = new Schema(
   {
     title: {
       type: String,
@@ -15,11 +15,6 @@ const BlogSchema = new Schema(
       slug: 'title',
       unique: true,
       lowercase: true,
-    },
-    category: {
-      type: String,
-      enum: ['kinh-nghiem', 'kien-thuc', 'chia-se'],
-      default: 'chia-se',
     },
     image: {
       type: String,
@@ -33,5 +28,5 @@ const BlogSchema = new Schema(
   },
 );
 
-const BlogModel = mongoose.model('Blog', BlogSchema);
-export default BlogModel;
+const DestinationModel = mongoose.model('destination', DestinationSchema);
+export default DestinationModel;
