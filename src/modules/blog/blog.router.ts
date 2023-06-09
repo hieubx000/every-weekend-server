@@ -13,7 +13,7 @@ const BlogRouter = Router();
 
 BlogRouter.get('/', findAll);
 BlogRouter.get('/:id', findById);
-BlogRouter.get('/slug/:id', findBySlug);
+BlogRouter.get('/slug/:slug', findBySlug);
 BlogRouter.post('/', create);
 BlogRouter.patch('/:id', update);
 BlogRouter.delete('/:id', remove);
