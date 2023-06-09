@@ -1,8 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const slug = require('mongoose-slug-generator');
-mongoose.plugin(slug);
+import mongoose, { Schema, Types } from 'mongoose';
 
 const BlogSchema = new Schema(
   {
@@ -14,18 +10,24 @@ const BlogSchema = new Schema(
       type: String,
       slug: 'title',
       unique: true,
-      lowercase: true,
     },
     category: {
-      type: String,
-      enum: ['kinh-nghiem', 'kien-thuc', 'chia-se'],
-      default: 'chia-se',
+      type: Number,
+      default: 1,
     },
     image: {
       type: String,
     },
     description: {
       type: String,
+    },
+    status: {
+      type: Number,
+      default: 1,
+    },
+    createdBy: {
+      type: Types.ObjectId,
+      ref: 'User',
     },
   },
   {

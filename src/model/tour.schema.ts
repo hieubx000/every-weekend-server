@@ -1,8 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const slug = require('mongoose-slug-generator');
-mongoose.plugin(slug);
+import { Schema, model } from 'mongoose';
 
 const TourSchema = new Schema(
   {
