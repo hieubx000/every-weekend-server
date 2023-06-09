@@ -1,8 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { verifyToken } from 'src/utils/jwt.helper';
+import { verifyToken } from '../utils/jwt.helper';
 
-const isAuth = async (req: Request, res: Response, next: NextFunction) => {
+export const AuthMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const authorization = req.headers.authorization || '';
     const token = authorization.split(' ')[1];
@@ -20,7 +24,11 @@ const isAuth = async (req: Request, res: Response, next: NextFunction) => {
     });
   }
 };
-const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
+export const AdminMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const authorization = req.headers.authorization || '';
     const token = authorization.split(' ')[1];
@@ -43,9 +51,4 @@ const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
       message: error.message,
     });
   }
-};
-
-module.exports = {
-  isAuth,
-  isAdmin,
 };

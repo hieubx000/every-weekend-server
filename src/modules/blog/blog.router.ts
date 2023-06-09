@@ -8,13 +8,14 @@ import {
   remove,
   update,
 } from './blog.controller';
+import { AuthMiddleware } from '../../middleware/auth.middleware';
 
 const BlogRouter = Router();
 
 BlogRouter.get('/', findAll);
 BlogRouter.get('/:id', findById);
 BlogRouter.get('/slug/:slug', findBySlug);
-BlogRouter.post('/', create);
+BlogRouter.post('/', AuthMiddleware, create);
 BlogRouter.patch('/:id', update);
 BlogRouter.delete('/:id', remove);
 

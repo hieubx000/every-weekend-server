@@ -2,16 +2,28 @@ import { Request, Response } from 'express';
 import BlogModel from '../../model/blog.schema';
 import { responseSuccess } from '../../utils/response.hepler';
 import slugify from 'slugify';
+import { FilterQuery, Model } from 'mongoose';
 
 export const findAll = async (req: Request, res: Response) => {
   const page = parseInt(`${req.query.page}`) || 1;
   const limit = parseInt(`${req.query.limit}`) || 20;
-  const search = req.query.search;
+  const { search, category, status, createdBy } = req.query;
+
   const skip = limit * (page - 1);
   const filter: any = {};
   if (search) {
     filter.title = { $regex: new RegExp(search as string, 'i') };
   }
+  if (category) {
+    filter.category = category;
+  }
+  if (status) {
+    filter.status = status;
+  }
+  if (createdBy) {
+    filter.createdBy = createdBy;
+  }
+
   const [blogs, totalBlog] = await Promise.all([
     BlogModel.find(filter).skip(skip).limit(limit),
     BlogModel.find(filter).countDocuments(),
@@ -34,8 +46,8 @@ export const create = async (req: Request, res: Response) => {
   const body = req.body;
   const newBlog = new BlogModel(body);
   newBlog.slug = slugify(newBlog.title);
+  newBlog.createdBy = req.user._id;
   const blog = await BlogModel.create(newBlog);
-
   return responseSuccess(res, blog);
 };
 

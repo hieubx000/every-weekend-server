@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Types } from 'mongoose';
 
 const BlogSchema = new Schema(
   {
@@ -12,15 +12,22 @@ const BlogSchema = new Schema(
       unique: true,
     },
     category: {
-      type: String,
-      enum: ['kinh-nghiem', 'kien-thuc', 'chia-se'],
-      default: 'chia-se',
+      type: Number,
+      default: 1,
     },
     image: {
       type: String,
     },
     description: {
       type: String,
+    },
+    status: {
+      type: Number,
+      default: 1,
+    },
+    createdBy: {
+      type: Types.ObjectId,
+      ref: 'User',
     },
   },
   {
