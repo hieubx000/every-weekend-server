@@ -9,7 +9,7 @@ export const findAll = async (req: Request, res: Response) => {
   const skip = limit * (page - 1);
   const filter: any = {};
   if (search) {
-    // filter.name = { $search: search };
+    filter.title = { $regex: new RegExp(search as string, 'i') };
   }
   const [destinations, totalDestination] = await Promise.all([
     DestinationModel.find(filter).skip(skip).limit(limit),
@@ -21,6 +21,12 @@ export const findAll = async (req: Request, res: Response) => {
 export const findById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const destination = await DestinationModel.findById(id);
+  return responseSuccess(res, destination);
+};
+
+export const findBySlug = async (req: Request, res: Response) => {
+  const { slug } = req.params;
+  const destination = await DestinationModel.findOne({ slug });
   return responseSuccess(res, destination);
 };
 
