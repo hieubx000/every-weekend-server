@@ -7,7 +7,7 @@ import { Request, Response } from 'express';
 
 export const login = async (req: Request, res: Response) => {
   // check if the user exists
-  const user = await UserModel.findOne({ username: req.body.userName });
+  const user = await UserModel.findOne({ userName: req.body.userName });
   if (user) {
     //check if password matches
     const result = await bcrypt.compare(req.body.password, user.password);

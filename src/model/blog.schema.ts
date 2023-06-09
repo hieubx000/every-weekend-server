@@ -14,11 +14,16 @@ const BlogSchema = new Schema(
       type: Number,
       default: 1,
     },
-    image: {
+    imageUrl: {
       type: String,
     },
-    description: {
+    content: {
       type: String,
+      default: '',
+    },
+    summary: {
+      type: String,
+      default: '',
     },
     status: {
       type: Number,
