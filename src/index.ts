@@ -1,17 +1,18 @@
 require('express-async-errors');
-import express, { Request, Response, NextFunction } from 'express';
-import { config } from 'dotenv';
 import cors from 'cors';
+import { config } from 'dotenv';
+import express, { NextFunction, Request, Response } from 'express';
+import morgan from 'morgan';
+import { database } from './common/database';
+import HttpError from './common/http.error';
+import AuthRouter from './modules/auth/auth.router';
+import BlogRouter from './modules/blog/blog.router';
+import DestinationRouter from './modules/destination/destination.router';
 import UploadRouter from './modules/upload/upload.router';
 import UserRouter from './modules/user/user.router';
-import AuthRouter from './modules/auth/auth.router';
-import { database } from './common/database';
 
 config();
 const PORT = process.env.PORT || 5000;
-import morgan from 'morgan';
-import HttpError from './common/http.error';
-import DestinationRouter from './modules/destination/destination.router';
 
 async function main() {
   const app = express();
@@ -30,6 +31,7 @@ async function main() {
   app.use('/auth', AuthRouter);
   app.use('/user', UserRouter);
   app.use('/destination', DestinationRouter);
+  app.use('/blog', BlogRouter);
 
   // catch 404 err
   app.use((req: Request, res: Response, next: NextFunction) => {
