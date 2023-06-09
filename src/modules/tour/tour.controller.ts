@@ -13,6 +13,8 @@ export const findAll = async (req: Request, res: Response) => {
     numOfDays,
     minPrice = 0,
     maxPrice = Number.MAX_VALUE,
+    fromDestination,
+    toDestination,
   } = req.query;
 
   const skip = limit * (page - 1);
@@ -35,8 +37,19 @@ export const findAll = async (req: Request, res: Response) => {
   if (maxPrice || minPrice) {
     filter.salePrice = { $gte: minPrice, $lte: maxPrice };
   }
+  if (fromDestination) {
+    filter.fromDestination = fromDestination;
+  }
+  if (toDestination) {
+    filter.toDestination = toDestination;
+  }
   const [tours, totaltour] = await Promise.all([
-    TourModel.find(filter).populate('author').skip(skip).limit(limit),
+    TourModel.find(filter)
+      .populate('author')
+      .populate('fromDestination')
+      .populate('toDestination')
+      .skip(skip)
+      .limit(limit),
     TourModel.find(filter).countDocuments(),
   ]);
   return responseSuccess(res, tours, totaltour);

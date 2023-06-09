@@ -64,6 +64,14 @@ const TourSchema = new Schema(
     tourGuide: {
       type: String,
     },
+    fromDestination: {
+      type: Types.ObjectId,
+      ref: 'Destination',
+    },
+    toDestination: {
+      type: Types.ObjectId,
+      ref: 'Destination',
+    },
     note: {
       type: String,
     },

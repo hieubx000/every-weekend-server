@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Types } from 'mongoose';
 
 const HotelSchema = new Schema(
   {
@@ -9,6 +9,10 @@ const HotelSchema = new Schema(
     slug: {
       type: String,
       unique: true,
+    },
+    author: {
+      type: Types.ObjectId,
+      ref: 'User',
     },
     image: {
       type: String,
