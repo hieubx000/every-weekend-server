@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
+import slugify from 'slugify';
 import BlogModel from '../../model/blog.schema';
 import { responseSuccess } from '../../utils/response.hepler';
-import slugify from 'slugify';
-import { FilterQuery, Model } from 'mongoose';
 
 export const findAll = async (req: Request, res: Response) => {
   const page = parseInt(`${req.query.page}`) || 1;
@@ -25,7 +24,7 @@ export const findAll = async (req: Request, res: Response) => {
   }
 
   const [blogs, totalBlog] = await Promise.all([
-    BlogModel.find(filter).skip(skip).limit(limit),
+    BlogModel.find(filter).populate('createdBy').skip(skip).limit(limit),
     BlogModel.find(filter).countDocuments(),
   ]);
   return responseSuccess(res, blogs, totalBlog);

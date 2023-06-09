@@ -8,9 +8,7 @@ const DestinationSchema = new Schema(
     },
     slug: {
       type: String,
-      slug: 'title',
       unique: true,
-      lowercase: true,
     },
     image: {
       type: String,
@@ -24,5 +22,5 @@ const DestinationSchema = new Schema(
   },
 );
 
-const DestinationModel = mongoose.model('destination', DestinationSchema);
+const DestinationModel = mongoose.model('Destination', DestinationSchema);
 export default DestinationModel;
