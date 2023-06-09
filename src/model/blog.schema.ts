@@ -29,7 +29,7 @@ const BlogSchema = new Schema(
       type: Number,
       default: 1,
     },
-    author: {
+    createdBy: {
       type: Types.ObjectId,
       ref: 'User',
     },

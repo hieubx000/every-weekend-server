@@ -26,7 +26,7 @@ export const findAll = async (req: Request, res: Response) => {
   }
   const [hotels, totalhotel] = await Promise.all([
     HotelModel.find(filter)
-      .populate('author')
+      .populate('createdBy')
       .populate('destination')
       .skip(skip)
       .limit(limit),

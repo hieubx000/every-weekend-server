@@ -10,7 +10,7 @@ const HotelSchema = new Schema(
       type: String,
       unique: true,
     },
-    author: {
+    createdBy: {
       type: Types.ObjectId,
       ref: 'User',
     },

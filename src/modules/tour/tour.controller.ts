@@ -7,7 +7,7 @@ export const findAll = async (req: Request, res: Response) => {
   const page = parseInt(`${req.query.page}`) || 1;
   const limit = parseInt(`${req.query.limit}`) || 20;
   const {
-    author,
+    createdBy,
     search,
     fromDate,
     numOfDays,
@@ -19,8 +19,8 @@ export const findAll = async (req: Request, res: Response) => {
 
   const skip = limit * (page - 1);
   const filter: any = {};
-  if (author) {
-    filter.auth = author;
+  if (createdBy) {
+    filter.auth = createdBy;
   }
   if (search) {
     filter.title = { $regex: new RegExp(search as string, 'i') };
@@ -45,7 +45,7 @@ export const findAll = async (req: Request, res: Response) => {
   }
   const [tours, totaltour] = await Promise.all([
     TourModel.find(filter)
-      .populate('author')
+      .populate('createdBy')
       .populate('fromDestination')
       .populate('toDestination')
       .skip(skip)
@@ -69,7 +69,7 @@ export const findBySlug = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
   const body = req.body;
   const newtour = new TourModel(body);
-  newtour.author = req.user._id;
+  newtour.createdBy = req.user._id;
   newtour.slug = slugify(newtour.title);
   const tour = await TourModel.create(newtour);
   return responseSuccess(res, tour);
