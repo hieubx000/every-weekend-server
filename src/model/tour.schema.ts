@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 
 const TourSchema = new Schema(
   {
@@ -9,6 +9,10 @@ const TourSchema = new Schema(
     slug: {
       type: String,
       unique: true,
+    },
+    author: {
+      type: Types.ObjectId,
+      ref: 'User',
     },
     image: {
       type: String,
