@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 
 const TourSchema = new Schema(
   {
@@ -8,9 +8,11 @@ const TourSchema = new Schema(
     },
     slug: {
       type: String,
-      slug: 'title',
       unique: true,
-      lowercase: true,
+    },
+    author: {
+      type: Types.ObjectId,
+      ref: 'User',
     },
     image: {
       type: String,
@@ -18,9 +20,60 @@ const TourSchema = new Schema(
     description: {
       type: String,
     },
+    startTime: {
+      type: Date,
+    },
+    beforStartTime: {
+      type: Date,
+    },
+    gatheringPlace: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    fromDate: {
+      type: Date,
+    },
+    toDate: {
+      type: Date,
+    },
+    numOfDays: {
+      type: Number,
+      default: 0,
+    },
+    maxSlot: {
+      type: Number,
+      default: 1,
+    },
+    used: {
+      type: Number,
+      default: 0,
+    },
     price: {
       type: Number,
       default: 0,
+    },
+    salePrice: {
+      type: Number,
+      default: 0,
+    },
+    timeLine: {
+      type: String,
+    },
+    tourGuide: {
+      type: String,
+    },
+    fromDestination: {
+      type: Types.ObjectId,
+      ref: 'Destination',
+    },
+    toDestination: {
+      type: Types.ObjectId,
+      ref: 'Destination',
+    },
+    note: {
+      type: String,
     },
     rate: {
       type: Number,

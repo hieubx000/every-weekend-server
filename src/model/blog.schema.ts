@@ -8,7 +8,6 @@ const BlogSchema = new Schema(
     },
     slug: {
       type: String,
-      slug: 'title',
       unique: true,
     },
     category: {
@@ -25,7 +24,7 @@ const BlogSchema = new Schema(
       type: Number,
       default: 1,
     },
-    createdBy: {
+    author: {
       type: Types.ObjectId,
       ref: 'User',
     },

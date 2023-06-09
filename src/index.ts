@@ -10,6 +10,7 @@ import BlogRouter from './modules/blog/blog.router';
 import DestinationRouter from './modules/destination/destination.router';
 import UploadRouter from './modules/upload/upload.router';
 import UserRouter from './modules/user/user.router';
+import TourRouter from './modules/tour/tour.router';
 
 config();
 const PORT = process.env.PORT || 5000;
@@ -32,6 +33,7 @@ async function main() {
   app.use('/user', UserRouter);
   app.use('/destination', DestinationRouter);
   app.use('/blog', BlogRouter);
+  app.use('/tour', TourRouter);
 
   // catch 404 err
   app.use((req: Request, res: Response, next: NextFunction) => {
