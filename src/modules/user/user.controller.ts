@@ -12,7 +12,7 @@ export const findAll = async (req: Request, res: Response) => {
 
   const filter: any = {};
   if (search) {
-    filter.$text = { $search: search };
+    filter.name = { $regex: new RegExp(search as string, 'i') };
   }
 
   const [users, totalUser] = await Promise.all([

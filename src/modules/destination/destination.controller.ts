@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import BlogModel from '../../model/blog.schema';
+import DestinationModel from '../../model/destination.schema';
 import { responseSuccess } from '../../utils/response.hepler';
 
 export const findAll = async (req: Request, res: Response) => {
@@ -11,44 +11,45 @@ export const findAll = async (req: Request, res: Response) => {
   if (search) {
     filter.title = { $regex: new RegExp(search as string, 'i') };
   }
-  const [blogs, totalBlog] = await Promise.all([
-    BlogModel.find(filter).skip(skip).limit(limit),
-    BlogModel.find(filter).countDocuments(),
+  const [destinations, totalDestination] = await Promise.all([
+    DestinationModel.find(filter).skip(skip).limit(limit),
+    DestinationModel.find(filter).countDocuments(),
   ]);
-  return responseSuccess(res, blogs, totalBlog);
+  return responseSuccess(res, destinations, totalDestination);
 };
 
 export const findById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const blog = await BlogModel.findById(id);
-  return responseSuccess(res, blog);
+  const destination = await DestinationModel.findById(id);
+  return responseSuccess(res, destination);
 };
+
 export const findBySlug = async (req: Request, res: Response) => {
   const { slug } = req.params;
-  const blog = await BlogModel.findOne({ slug });
-  return responseSuccess(res, blog);
+  const destination = await DestinationModel.findOne({ slug });
+  return responseSuccess(res, destination);
 };
 
 export const create = async (req: Request, res: Response) => {
   const body = req.body;
-  const newBlog = new BlogModel(body);
-  const blog = await BlogModel.create(newBlog);
+  const newDestination = new DestinationModel(body);
+  const destination = await DestinationModel.create(newDestination);
 
-  return responseSuccess(res, blog);
+  return responseSuccess(res, destination);
 };
 
 export const update = async (req: Request, res: Response) => {
   const { id } = req.params;
   const body = req.body;
-  const [_, blog] = await Promise.all([
-    await BlogModel.findByIdAndUpdate(id, body),
-    await BlogModel.findById(id),
+  const [_, destination] = await Promise.all([
+    await DestinationModel.findByIdAndUpdate(id, body),
+    await DestinationModel.findById(id),
   ]);
-  return responseSuccess(res, blog);
+  return responseSuccess(res, destination);
 };
 
 export const remove = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const blog = await BlogModel.findByIdAndDelete(id);
-  return responseSuccess(res, blog);
+  const destination = await DestinationModel.findByIdAndDelete(id);
+  return responseSuccess(res, destination);
 };

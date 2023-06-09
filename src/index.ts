@@ -11,6 +11,7 @@ config();
 const PORT = process.env.PORT || 5000;
 import morgan from 'morgan';
 import HttpError from './common/http.error';
+import DestinationRouter from './modules/destination/destination.router';
 
 async function main() {
   const app = express();
@@ -28,6 +29,7 @@ async function main() {
   app.use('/upload', UploadRouter);
   app.use('/auth', AuthRouter);
   app.use('/user', UserRouter);
+  app.use('/destination', DestinationRouter);
 
   // catch 404 err
   app.use((req: Request, res: Response, next: NextFunction) => {

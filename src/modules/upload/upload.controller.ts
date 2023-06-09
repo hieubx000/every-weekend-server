@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { UploadApiResponse, v2 } from 'cloudinary';
 import { config } from 'dotenv';
-const streamifier = require('streamifier');
+import streamifier from 'streamifier';
 
 config();
 v2.config({
