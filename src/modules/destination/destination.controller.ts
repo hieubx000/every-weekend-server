@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import DestinationModel from '../../model/destination.schema';
 import { responseSuccess } from '../../utils/response.hepler';
+import slugify from 'slugify';
 
 export const findAll = async (req: Request, res: Response) => {
   const page = parseInt(`${req.query.page}`) || 1;
@@ -33,6 +34,9 @@ export const findBySlug = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
   const body = req.body;
   const newDestination = new DestinationModel(body);
+  if (newDestination.title) {
+    newDestination.slug = slugify(newDestination.title);
+  }
   const destination = await DestinationModel.create(newDestination);
 
   return responseSuccess(res, destination);
@@ -41,6 +45,9 @@ export const create = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   const { id } = req.params;
   const body = req.body;
+  if (body.title) {
+    body.slug = slugify(body.title);
+  }
   const [_, destination] = await Promise.all([
     await DestinationModel.findByIdAndUpdate(id, body),
     await DestinationModel.findById(id),
