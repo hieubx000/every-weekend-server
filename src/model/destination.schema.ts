@@ -10,11 +10,13 @@ const DestinationSchema = new Schema(
       type: String,
       unique: true,
     },
-    image: {
+    imageUrl: {
       type: String,
+      default: '',
     },
     description: {
       type: String,
+      default: '',
     },
   },
   {

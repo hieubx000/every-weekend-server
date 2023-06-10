@@ -14,29 +14,34 @@ const TourSchema = new Schema(
       type: Types.ObjectId,
       ref: 'User',
     },
-    image: {
-      type: String,
+    imageUrl: {
+      type: [String],
+      default: [],
     },
-    description: {
+    about: {
       type: String,
+      default: '',
     },
     startTime: {
-      type: Date,
+      type: Number,
+      default: 0,
     },
     beforStartTime: {
-      type: Date,
+      type: Number,
+      default: 0,
     },
     gatheringPlace: {
-      type: String,
-    },
-    address: {
-      type: String,
+      type: [
+        {
+          address: String,
+          latitude: Number,
+          longitude: Number,
+        },
+      ],
     },
     fromDate: {
-      type: Date,
-    },
-    toDate: {
-      type: Date,
+      type: Number,
+      default: 0,
     },
     numOfDays: {
       type: Number,
@@ -54,26 +59,44 @@ const TourSchema = new Schema(
       type: Number,
       default: 0,
     },
-    salePrice: {
+    discount: {
       type: Number,
       default: 0,
     },
-    timeLine: {
-      type: String,
+    sightseeing: {
+      type: [String],
+      default: [],
+    },
+    vehicle: {
+      type: [String],
+    },
+    schedule: {
+      type: [
+        {
+          label: String,
+          content: String,
+        },
+      ],
     },
     tourGuide: {
       type: String,
+      default: '',
     },
     fromDestination: {
-      type: Types.ObjectId,
-      ref: 'Destination',
+      type: Number,
+      default: 1,
     },
     toDestination: {
       type: Types.ObjectId,
       ref: 'Destination',
     },
-    note: {
+    introduction: {
       type: String,
+      default: '',
+    },
+    introLink: {
+      type: String,
+      default: '',
     },
     rate: {
       type: Number,

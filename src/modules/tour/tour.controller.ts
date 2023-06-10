@@ -10,6 +10,7 @@ export const findAll = async (req: Request, res: Response) => {
     createdBy,
     search,
     fromDate,
+    toDate,
     numOfDays,
     minPrice = 0,
     maxPrice = Number.MAX_VALUE,
@@ -20,22 +21,22 @@ export const findAll = async (req: Request, res: Response) => {
   const skip = limit * (page - 1);
   const filter: any = {};
   if (createdBy) {
-    filter.auth = createdBy;
+    filter.createdBy = createdBy;
   }
   if (search) {
     filter.title = { $regex: new RegExp(search as string, 'i') };
   }
   if (fromDate) {
-    filter.fromDate = { $gte: new Date(fromDate as string) };
+    filter.fromDate = { $gte: fromDate };
   }
-  if (fromDate) {
-    filter.fromDate = { $lte: new Date(fromDate as string) };
+  if (toDate) {
+    filter.toDate = { $lte: toDate };
   }
   if (numOfDays) {
     filter.numOfDays = numOfDays;
   }
   if (maxPrice || minPrice) {
-    filter.salePrice = { $gte: minPrice, $lte: maxPrice };
+    filter.price = { $gte: minPrice, $lte: maxPrice };
   }
   if (fromDestination) {
     filter.fromDestination = fromDestination;
