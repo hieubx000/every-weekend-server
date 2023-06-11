@@ -10,6 +10,14 @@ const HotelSchema = new Schema(
       type: String,
       unique: true,
     },
+    price: {
+      type: Number,
+      default: 0,
+    },
+    discount: {
+      type: Number,
+      default: 0,
+    },
     createdBy: {
       type: Types.ObjectId,
       ref: 'User',
