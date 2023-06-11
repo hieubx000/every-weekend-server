@@ -8,26 +8,25 @@ export const findAll = async (req: Request, res: Response) => {
   const limit = parseInt(`${req.query.limit}`) || 20;
   const {
     search,
-    minPrice = 0,
-    maxPrice = Number.MAX_VALUE,
-    destination,
+    toDestination,
+    createdBy,
   } = req.query;
 
   const skip = limit * (page - 1);
   const filter: any = {};
+  if (createdBy) {
+    filter.createdBy = createdBy;
+  }
   if (search) {
     filter.title = { $regex: new RegExp(search as string, 'i') };
   }
-  if (maxPrice || minPrice) {
-    filter.salePrice = { $gte: minPrice, $lte: maxPrice };
-  }
-  if (destination) {
-    filter.destination = destination;
+  if (toDestination) {
+    filter.toDestination = toDestination;
   }
   const [hotels, totalhotel] = await Promise.all([
     HotelModel.find(filter)
       .populate('createdBy')
-      .populate('destination')
+      .populate('toDestination')
       .skip(skip)
       .limit(limit),
     HotelModel.find(filter).countDocuments(),

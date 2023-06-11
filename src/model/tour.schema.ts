@@ -26,7 +26,7 @@ const TourSchema = new Schema(
       type: Number,
       default: 0,
     },
-    beforStartTime: {
+    beforeStartTime: {
       type: Number,
       default: 0,
     },
@@ -92,11 +92,9 @@ const TourSchema = new Schema(
     },
     introduction: {
       type: String,
-      default: '',
     },
     introLink: {
       type: String,
-      default: '',
     },
     rate: {
       type: Number,

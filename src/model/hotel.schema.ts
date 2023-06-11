@@ -14,23 +14,50 @@ const HotelSchema = new Schema(
       type: Types.ObjectId,
       ref: 'User',
     },
-    destination: {
+    address: {
+      type: [
+        {
+          address: String,
+          latitude: Number,
+          longitude: Number,
+        },
+      ],
+    },
+    toDestination: {
       type: Types.ObjectId,
       ref: 'Destination',
     },
-    image: {
+    imageUrl: {
+      type: [String],
+    },
+    introduction: {
       type: String,
     },
-    description: {
+    introLink: {
       type: String,
     },
-    price: {
-      type: Number,
-      default: 0,
+    hotelService: {
+      type: [Number],
     },
-    salePrice: {
-      type: Number,
-      default: 0,
+    rule: {
+      type: {
+        checkIn: String,
+        checkOut: String,
+      },
+    },
+    availability: {
+      type: [
+        {
+          title: String,
+          imageUrl: String,
+          acreage: Number,
+          noOfBeds: Number,
+          amount: Number,
+          price: Number,
+          quantity: Number,
+          roomService: [Number],
+        },
+      ],
     },
   },
   {
