@@ -6,11 +6,7 @@ import { responseSuccess } from '../../utils/response.hepler';
 export const findAll = async (req: Request, res: Response) => {
   const page = parseInt(`${req.query.page}`) || 1;
   const limit = parseInt(`${req.query.limit}`) || 20;
-  const {
-    search,
-    toDestination,
-    createdBy,
-  } = req.query;
+  const { search, toDestination, createdBy } = req.query;
 
   const skip = limit * (page - 1);
   const filter: any = {};
@@ -49,6 +45,7 @@ export const create = async (req: Request, res: Response) => {
   const body = req.body;
   const newhotel = new HotelModel(body);
   newhotel.slug = slugify(newhotel.title);
+  newhotel.createdBy = req?.user?._id || '';
   const hotel = await HotelModel.create(newhotel);
   return responseSuccess(res, hotel);
 };
