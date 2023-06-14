@@ -29,7 +29,7 @@ const BookingTourSchema = new Schema(
             default: 0,
           },
           birthDay: {
-            type: String,
+            type: Number,
           },
           cccd: {
             type: String,
@@ -42,6 +42,10 @@ const BookingTourSchema = new Schema(
       default: 1,
     },
     price: {
+      type: Number,
+      default: 0,
+    },
+    discount: {
       type: Number,
       default: 0,
     },

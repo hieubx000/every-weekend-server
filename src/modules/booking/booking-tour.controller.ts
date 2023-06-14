@@ -54,8 +54,14 @@ export const create = async (req: Request, res: Response) => {
   const tour = await TourModel.findById(req.body?.tour);
   if (tour) {
     newBookingTour.price = tour.price;
+    newBookingTour.discount = tour.discount;
     newBookingTour.totalPrice =
-      parseFloat(`${tour.price * (newBookingTour?.totalCustomer || 1)}`) || 0;
+      parseFloat(
+        `${
+          ((tour.price * (100 - tour.discount || 0)) / 100) *
+          (newBookingTour?.totalCustomer || 1)
+        }`,
+      ) || 0;
   } else {
     throw new HttpError('Not Found tour', 400);
   }
