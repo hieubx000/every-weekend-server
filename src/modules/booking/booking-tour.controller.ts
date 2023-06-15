@@ -3,11 +3,13 @@ import BookingTourModel from '../../model/booking-tour.schema';
 import { responseSuccess } from '../../utils/response.hepler';
 import TourModel from '../../model/tour.schema';
 import HttpError from '../../common/http.error';
+import { Types } from 'mongoose';
 
 export const findAll = async (req: Request, res: Response) => {
   const page = parseInt(`${req.query.page}`) || 1;
   const limit = parseInt(`${req.query.limit}`) || 20;
-  const { createdBy, tour, status, cName, cEmail, cPhone } = req.query;
+  const { createdBy, tour, status, cName, cEmail, cPhone, authorTour } =
+    req.query;
 
   const skip = limit * (page - 1);
   const filter: any = {};
@@ -29,16 +31,54 @@ export const findAll = async (req: Request, res: Response) => {
   if (status) {
     filter.status = status;
   }
+  console.log(authorTour);
+  const filter2: any = {};
+  if (authorTour) {
+    filter2['tour.createdBy'] = {
+      $eq: new Types.ObjectId(`${authorTour}`), //"tourTmp.createdBy" : {$eq : ObjectId('6489eeec80c3ccfb1610ab50')}
+    };
+  }
 
   const [bookingTour, totalBookingTour] = await Promise.all([
-    BookingTourModel.find(filter)
-      .populate('createdBy')
-      .populate('tour')
-      .skip(skip)
-      .limit(limit),
-    BookingTourModel.find(filter).countDocuments(),
+    await BookingTourModel.aggregate([
+      { $match: { ...filter } },
+      {
+        $lookup: {
+          from: 'tours',
+          localField: 'tour',
+          foreignField: '_id',
+          as: 'tour',
+        },
+      },
+      { $unwind: '$tour' },
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $match: {
+          ...filter2,
+        },
+      },
+    ]),
+    await BookingTourModel.aggregate([
+      { $match: { ...filter } },
+      {
+        $lookup: {
+          from: 'tours',
+          localField: 'tour',
+          foreignField: '_id',
+          as: 'tour',
+        },
+      },
+      { $unwind: '$tour' },
+      {
+        $match: {
+          ...filter2,
+        },
+      },
+      { $count: 'count' },
+    ]),
   ]);
-  return responseSuccess(res, bookingTour, totalBookingTour);
+  return responseSuccess(res, bookingTour, totalBookingTour[0].count as number);
 };
 
 export const findById = async (req: Request, res: Response) => {

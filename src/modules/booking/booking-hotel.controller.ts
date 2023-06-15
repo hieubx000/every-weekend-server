@@ -3,11 +3,12 @@ import BookingHotelModel from '../../model/booking-hotel.schema';
 import { responseSuccess } from '../../utils/response.hepler';
 import HotelModel from '../../model/hotel.schema';
 import HttpError from '../../common/http.error';
+import { Types } from 'mongoose';
 
 export const findAll = async (req: Request, res: Response) => {
   const page = parseInt(`${req.query.page}`) || 1;
   const limit = parseInt(`${req.query.limit}`) || 20;
-  const { createdBy, hotel, status } = req.query;
+  const { createdBy, hotel, status, authorHotel } = req.query;
 
   const skip = limit * (page - 1);
   const filter: any = {};
@@ -21,16 +22,54 @@ export const findAll = async (req: Request, res: Response) => {
   if (status) {
     filter.status = status;
   }
+  console.log(authorHotel);
+  const filter2: any = {};
+  if (authorHotel) {
+    filter2['hotel.createdBy'] = {
+      $eq: new Types.ObjectId(`${authorHotel}`),
+    };
+  }
 
   const [bookinghotel, totalBookinghotel] = await Promise.all([
-    BookingHotelModel.find(filter)
-      .populate('createdBy')
-      .populate('hotel')
-      .skip(skip)
-      .limit(limit),
-    BookingHotelModel.find(filter).countDocuments(),
+    await BookingHotelModel.aggregate([
+      { $match: { ...filter } },
+      {
+        $lookup: {
+          from: 'hotels',
+          localField: 'hotel',
+          foreignField: '_id',
+          as: 'hotel',
+        },
+      },
+      { $unwind: '$hotel' },
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $match: {
+          ...filter2,
+        },
+      },
+    ]),
+    await BookingHotelModel.aggregate([
+      { $match: { ...filter } },
+      {
+        $lookup: {
+          from: 'hotels',
+          localField: 'hotel',
+          foreignField: '_id',
+          as: 'hotel',
+        },
+      },
+      { $unwind: '$hotel' },
+      {
+        $match: {
+          ...filter2,
+        },
+      },
+      { $count: 'count' },
+    ]),
   ]);
-  return responseSuccess(res, bookinghotel, totalBookinghotel);
+  return responseSuccess(res, bookinghotel, totalBookinghotel[0].count);
 };
 
 export const findById = async (req: Request, res: Response) => {
