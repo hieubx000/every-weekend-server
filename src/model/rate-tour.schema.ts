@@ -1,14 +1,14 @@
 import { Schema, Types, model } from 'mongoose';
 
-const CommentSchema = new Schema(
+const RateTourSchema = new Schema(
   {
     createdBy: {
       type: Types.ObjectId,
       ref: 'User',
     },
-    blog: {
+    tour: {
       type: Types.ObjectId,
-      ref: 'Blog',
+      ref: 'Tour',
     },
     context: {
       type: String,
@@ -25,5 +25,5 @@ const CommentSchema = new Schema(
   },
 );
 
-const CommentModel = model('Comment', CommentSchema);
-export default CommentModel;
+const RateTourModel = model('RateTour', RateTourSchema);
+export default RateTourModel;

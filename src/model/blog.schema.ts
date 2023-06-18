@@ -33,6 +33,10 @@ const BlogSchema = new Schema(
       type: Types.ObjectId,
       ref: 'User',
     },
+    rate: {
+      type: Number,
+      default: 5,
+    },
   },
   {
     timestamps: true,

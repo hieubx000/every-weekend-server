@@ -67,6 +67,10 @@ const HotelSchema = new Schema(
         },
       ],
     },
+    rate: {
+      type: Number,
+      default: 5,
+    },
   },
   {
     timestamps: true,
