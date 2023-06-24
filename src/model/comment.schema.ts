@@ -9,6 +9,7 @@ const CommentSchema = new Schema(
     blog: {
       type: Types.ObjectId,
       ref: 'Blog',
+      require: true,
     },
     context: {
       type: String,
