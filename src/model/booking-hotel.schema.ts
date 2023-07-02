@@ -6,11 +6,28 @@ const BookingHotelSchema = new Schema(
       type: Number,
       default: 1,
     },
-    price: {
+    totalRoom: {
       type: Number,
-      default: 0,
+    },
+    room: {
+      type: {
+        title: String,
+        imageUrl: String,
+        acreage: Number,
+        noOfBeds: Number,
+        amount: Number,
+        price: Number,
+        quantity: Number,
+        roomService: [Number],
+      },
     },
     totalPrice: {
+      type: Number,
+    },
+    checkIn: {
+      type: Number,
+    },
+    checkOut: {
       type: Number,
     },
     note: {
@@ -28,10 +45,9 @@ const BookingHotelSchema = new Schema(
     },
     status: {
       type: Number,
-      default: 0,
+      default: 1,
     },
   },
-
   { timestamps: true },
 );
 

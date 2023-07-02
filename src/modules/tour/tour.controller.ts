@@ -11,11 +11,14 @@ export const findAll = async (req: Request, res: Response) => {
     search,
     fromDate,
     toDate,
-    numOfDays,
+    minNumOfDay = 0,
+    maxNumOfDay = Number.MAX_VALUE,
     minPrice = 0,
     maxPrice = Number.MAX_VALUE,
     fromDestination,
     toDestination,
+    sortField,
+    sortDirection,
   } = req.query;
 
   const skip = limit * (page - 1);
@@ -27,13 +30,13 @@ export const findAll = async (req: Request, res: Response) => {
     filter.title = { $regex: new RegExp(search as string, 'i') };
   }
   if (fromDate) {
-    filter.fromDate = { $gte: fromDate };
+    filter.fromDate = fromDate;
   }
   if (toDate) {
     filter.toDate = { $lte: toDate };
   }
-  if (numOfDays) {
-    filter.numOfDays = numOfDays;
+  if (minNumOfDay || maxNumOfDay) {
+    filter.numOfDays = { $gte: minNumOfDay, $lte: maxNumOfDay };
   }
   if (maxPrice || minPrice) {
     filter.price = { $gte: minPrice, $lte: maxPrice };
@@ -44,11 +47,20 @@ export const findAll = async (req: Request, res: Response) => {
   if (toDestination) {
     filter.toDestination = toDestination;
   }
+
+  const sortDirectionParams = sortDirection ? Number(sortDirection) : -1;
+  const sortParams = sortField
+    ? {
+        [sortField]: sortDirectionParams,
+      }
+    : {};
+
   const [tours, totaltour] = await Promise.all([
     TourModel.find(filter)
       .populate('createdBy')
       .populate('fromDestination')
       .populate('toDestination')
+      .sort(sortParams)
       .skip(skip)
       .limit(limit),
     TourModel.find(filter).countDocuments(),

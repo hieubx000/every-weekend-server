@@ -84,7 +84,7 @@ export const create = async (req: Request, res: Response) => {
   newBookinghotel.createdBy = req?.user?._id || '';
   const hotel = await HotelModel.findById(req.body?.hotel);
   if (hotel) {
-    newBookinghotel.price = hotel.price;
+    // newBookinghotel.price = hotel.price;
     newBookinghotel.totalPrice =
       parseFloat(`${hotel.price * (newBookinghotel?.totalCustomer || 1)}`) || 0;
   } else {

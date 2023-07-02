@@ -6,7 +6,15 @@ import { responseSuccess } from '../../utils/response.hepler';
 export const findAll = async (req: Request, res: Response) => {
   const page = parseInt(`${req.query.page}`) || 1;
   const limit = parseInt(`${req.query.limit}`) || 20;
-  const { search, toDestination, createdBy } = req.query;
+  const {
+    search,
+    toDestination,
+    createdBy,
+    sortField,
+    sortDirection,
+    minPrice = 0,
+    maxPrice = Number.MAX_VALUE,
+  } = req.query;
 
   const skip = limit * (page - 1);
   const filter: any = {};
@@ -16,18 +24,30 @@ export const findAll = async (req: Request, res: Response) => {
   if (search) {
     filter.title = { $regex: new RegExp(search as string, 'i') };
   }
+  if (maxPrice || minPrice) {
+    filter.price = { $gte: minPrice, $lte: maxPrice };
+  }
   if (toDestination) {
     filter.toDestination = toDestination;
   }
-  const [hotels, totalhotel] = await Promise.all([
+
+  const sortDirectionParams = sortDirection ? Number(sortDirection) : -1;
+  const sortParams = sortField
+    ? {
+        [sortField]: sortDirectionParams,
+      }
+    : {};
+
+  const [hotels, totalHotel] = await Promise.all([
     HotelModel.find(filter)
       .populate('createdBy')
       .populate('toDestination')
+      .sort(sortParams)
       .skip(skip)
       .limit(limit),
     HotelModel.find(filter).countDocuments(),
   ]);
-  return responseSuccess(res, hotels, totalhotel);
+  return responseSuccess(res, hotels, totalHotel);
 };
 
 export const findById = async (req: Request, res: Response) => {
