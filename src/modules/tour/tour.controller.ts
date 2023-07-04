@@ -39,7 +39,7 @@ export const findAll = async (req: Request, res: Response) => {
     filter.numOfDays = { $gte: minNumOfDay, $lte: maxNumOfDay };
   }
   if (maxPrice || minPrice) {
-    filter.price = { $gte: minPrice, $lte: maxPrice };
+    filter.priceBefore = { $gte: minPrice, $lte: maxPrice };
   }
   if (fromDestination) {
     filter.fromDestination = fromDestination;

@@ -59,6 +59,10 @@ const TourSchema = new Schema(
       type: Number,
       default: 0,
     },
+    priceBefore: {
+      type: Number,
+      default: 0,
+    },
     discount: {
       type: Number,
       default: 0,
