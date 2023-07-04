@@ -29,7 +29,14 @@ async function main() {
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(cors());
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+      methods: 'GET,PUT,POST,OPTIONS',
+      allowedHeaders: 'Content-Type,Authorization',
+    }),
+  );
 
   app.get('/', (req: Request, res: Response) => {
     return res.json('ok');
